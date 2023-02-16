@@ -57,11 +57,24 @@ export default class Stepper<
     ValueWrapper = (this as Stepper).getByRef('ValueWrapper')! as Lightning.Element<InlineElement<TemplateSpec['ValueWrapper']>>;
     /**
      * @privateRemarks
-     * Normally we wouldn't have to explicity assert the type of Value in this case, but there seems to be a bug in the
-     * TypeScript compiler where if we don't do that here it causes VSCode to show inconsistent errors throughout the
-     * project.
+     * !!! If the line below is left without an explicit type assertion, eventually the following compiler error will be flagged
+     * in VSCode:
+     *
+     * ```
+     * 'Value' implicitly has type 'any' because it does not have a type annotation and is referenced directly
+     * or indirectly in its own initializer.ts(7022)
+     * ```
+     *
+     * You can induce the error by going into another file like ProgressStepper.ts and making a small modification. You shouldn't
+     * even need to save the file. You will start to see the error here on the line below.
+     *
+     * If you run `tsc` directly from the command line, this error will not be flagged (instead a small error in `ProgressStepper.ts` should be)
+     *
+     * You can fix the error in VSCode temporarily by issuing the "TypeScript: Restart TS Server" command.
+     *
+     * Uncommenting the explicit type assertion below seems to fix the issue permanently.
      */
-    Value = (this as Stepper).ValueWrapper.getByRef('Value')! as Lightning.Element;
+    Value = (this as Stepper).ValueWrapper.getByRef('Value')!/* as Lightning.Element*/;
 
     protected _focusColor = 0xff009245;
     protected _labelColor = 0xff9d9d9d;
