@@ -46,7 +46,7 @@ export default class ProgressStepper
         this._value = v;
         if(this.active) {
             this.ProgressBar.value = this._value / (this._max - this._min);
-            this.Value.text!.text = ''+this._value;
+            this.Value.text!.text = this._value;
         }
     }
 
